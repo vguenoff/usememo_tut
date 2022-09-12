@@ -11,17 +11,16 @@ function App() {
     const [userNumber, setUserNumber] = useState('')
     const [randomInput, setRandomInput] = useState('')
 
-    const fib = useCallback(n => {
-        return n <= 1 ? n : fib(n - 1) + fib(n - 2)
-    }, [])
+    // 1, 2, 3, 5, 8
+    // useCallback memoizes the function
+    const fib = useCallback(n => (n > 1 ? fib(n - 1) + fib(n - 2) : n), [])
 
-    const fibNumber = useMemo(() => fib(userNumber), [userNumber, fib])
-
-    const myArray = useMemo(() => getArray(), [])
+    // useMemo memoizes the output of a function
+    const fibNumber = useMemo(() => fib(userNumber), [fib, userNumber])
 
     useEffect(() => {
-        console.log('New array')
-    }, [myArray])
+        console.log(`new number ${fibNumber}`)
+    }, [fibNumber])
 
     return (
         <main className="App">
